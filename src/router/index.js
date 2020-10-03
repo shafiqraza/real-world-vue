@@ -19,9 +19,10 @@ const routes = [
     component: EventCreate
   },
   {
-    path: '/event/show',
+    path: '/event/:id',
     name: 'event-show',
-    component: EventShow
+    component: EventShow,
+    props: true
   }
   // {
   //   path: "/about",
@@ -35,7 +36,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history'
 })
 
 export default router
