@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import EventService from '@/services/EventService'
 
 Vue.use(Vuex)
 
@@ -7,42 +8,29 @@ export default new Vuex.Store({
   state: {
     user: { id: 1, name: 'John' },
     categories: [
-      'sustainablity',
+      'sustainability',
       'nature',
-      'animal walfare',
+      'animal welfare',
       'housing',
       'education',
       'food',
-      'comumnity'
+      'community'
     ],
-    todos: [
-      { id: 1, text: '...', done: true },
-      { id: 2, text: '...', done: true },
-      { id: 3, text: '...', done: false },
-      { id: 4, text: '...', done: true }
-    ],
-    events: [
-      { id: 1, text: '...', organizer: true },
-      { id: 2, text: '...', organizer: true },
-      { id: 3, text: '...', organizer: false },
-      { id: 4, text: '...', organizer: true }
-    ]
+
+    events: []
   },
-  mutations: {},
-  actions: {},
-  modules: {},
-  getters: {
-    catLength: state => {
-      return state.categories.length
-    },
-    doneTodos: state => {
-      return state.todos.filter(todos => todos.done).length
-    },
-    unDoneTodos: state => {
-      return state.todos.filter(todos => !todos.done).length
-    },
-    getEventById: state => id => {
-      return state.events.find(event => event.id === id)
+  mutations: {
+    ADD_EVENT(state, event) {
+      state.events.push(event)
     }
-  }
+  },
+  actions: {
+    createEvent({ commit }, event) {
+      return EventService.postEvent(event).then(() => {
+        commit('ADD_EVENT', event)
+      })
+    }
+  },
+  modules: {},
+  getters: {}
 })
